@@ -29,7 +29,7 @@ int main()
 	
   	for(int i=0;i<n;i++)
 	  {
-	  	cout<<"Wprowadz liczbe: ";
+	  	cout<<"Wprowadz liczbeee: ";
     	cin>>tablica_sortujaca[i];
 	  }
  
