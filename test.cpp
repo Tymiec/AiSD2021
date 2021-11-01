@@ -2,23 +2,23 @@
 using namespace std;
 
 
-void buublesort(int *tablica_sortujaca, int n)
+void buublesort(int *tablica_sortujaca, int length)
 {
-	for (int i = 0; i < (n); i++)
-	{
-		for(int j=0; j<(n-i-1); j++) // zmieniamy n-i-1 na n-i
+	for(int i=1; i<length; ++i)
+    {
+        for(int j=length-1; j>=i; --j)
         {
-		if (tablica_sortujaca[j]>tablica_sortujaca[j+1])
-		{
-			swap(tablica_sortujaca[j], tablica_sortujaca[j+1]);
-		}
+            if(tablica_sortujaca[j-1]>tablica_sortujaca[j])
+            {
+                swap(tablica_sortujaca[j-1], tablica_sortujaca[j]);
+            }
 		}
 	}
-	
 }
 int main()
 {
-	int *tablica_sortujaca, n;
+	int *tablica_sortujaca;
+	int n;
  
   	cout<<"Ile liczb bedziemy sortowac ? \n";
   	cin>>n;

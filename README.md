@@ -1,5 +1,7 @@
 # AiSD2021
 
-TO DO
+Zrobione:
+Lekcja 2 - sortowanie
 
-test test test
+Do zrobienia:
+
