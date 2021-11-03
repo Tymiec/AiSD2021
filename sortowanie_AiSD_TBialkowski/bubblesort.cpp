@@ -1,7 +1,6 @@
 #include <iostream>
 using namespace std;
 
-
 void buublesort(int *tablica_sortujaca, int n)
 {
 	for (int i = 0; i < (n); i++)
