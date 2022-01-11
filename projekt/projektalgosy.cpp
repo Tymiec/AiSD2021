@@ -31,3 +31,4 @@ int main()
 	Wielomian q(arr2, d2+1)
 	q.displayPoly();
 	
+	
