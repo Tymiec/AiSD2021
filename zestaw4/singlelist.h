@@ -7,7 +7,8 @@
 #include <cassert>    // assert()
 
 template <typename T>
-struct SingleNode {
+struct SingleNode 
+{
 // the default access mode and default inheritance mode are public
     T value;
     SingleNode *next;
@@ -17,46 +18,139 @@ struct SingleNode {
 };
 
 template <typename T>
-class SingleList {
+class SingleList 
+{
     SingleNode<T> *head, *tail;
+    int rozmiar;
 public:
-    SingleList() : head(nullptr), tail(nullptr) {}
+    SingleList() : head(nullptr), tail(nullptr) 
+    {
+        rozmiar = 0;
+    }
     ~SingleList(); // tu trzeba wyczyscic wezly
-    SingleList(const SingleList& other); // copy constructor
+    SingleList(const SingleList& other)
+    {
+        head = tail = nullptr;
+        SingleNode<T> *node = other.head;
+        while(node)
+        {
+            push_back(node->value);
+            node = node -> next;
+        }
+    } // copy constructor
     // usage:   SingleList<int> list2(list1);
     SingleList(SingleList&& other); // move constructor NIEOBOWIAZKOWE
     // usage:   SingleList<int> list2(std::move(list1));
-    SingleList& operator=(const SingleList& other); // copy assignment operator, return *this
+    SingleList& operator=(const SingleList& other)
+    {
+        if(this != &other)
+        {
+            clear();
+            if(other.head==nullptr)
+                head = nullptr;
+            else
+            {
+                SingleNode<T> *p1,*p2;
+                head = new SingleNode<T>;
+                head -> value = other.head -> value;
+                p1 = head;
+                p2 = other.head -> next;
+                while(p2)
+                {
+                    p1 -> next = new SingleNode<T>;
+                    p1 = p1 -> next;
+                    p1 -> value = p2 -> value;
+                    p2 = p2 -> next;
+                }   
+                p1 -> next = nullptr;
+                rozmiar = other.rozmiar;
+            }
+        }
+        return *this;
+    } // copy assignment operator, return *this
     // usage:   list2 = list1;
     SingleList& operator=(SingleList&& other); // move assignment operator, return *this
     // usage:   list2 = std::move(list1); NIEOBOWIAZKOWE
-    bool empty() const { return head == nullptr; }
-    int size() const; // O(n) bo trzeba policzyc
+    bool empty() const 
+    {
+        return head == nullptr; 
+    }
+    int size() const
+    {
+        return rozmiar;
+    } // O(n) bo trzeba policzyc
     void push_front(const T& item); // O(1), L.push_front(item)
-    void push_front(T&& item); // O(1), L.push_front(std::move(item)) NIEOBOWIAZKOWE
+    void push_front(T&& item)
+    {
+        if (!empty())   
+        {
+            head = new SingleNode<T>(std::move(item), head);
+        } 
+        else 
+        {
+            head = tail = new SingleNode<T>(std::move(item));
+        }
+        rozmiar++;
+    } // O(1), L.push_front(std::move(item)) NIEOBOWIAZKOWE
     void push_back(const T& item); // O(1), L.push_back(item)
-    void push_back(T&& item); // O(1), L.push_back(std::move(item)) NIEOBOWIAZKOWE
-    T& front() const { return head->value; } // zwraca poczatek, nie usuwa
-    T& back() const { return tail->value; } // zwraca koniec, nie usuwa
+    void push_back(T&& item)
+    {
+        if (!empty()) 
+        {
+            tail->next = new SingleNode<T>(std::move(item));
+            tail = tail->next;
+        } 
+        else 
+        {
+            head = tail = new SingleNode<T>(std::move(item));
+        }
+        rozmiar++;
+    } // O(1), L.push_back(std::move(item)) NIEOBOWIAZKOWE
+    T& front() const 
+    { 
+        return head->value; 
+    } // zwraca poczatek, nie usuwa
+    T& back() const 
+    {
+        return tail->value; 
+    } // zwraca koniec, nie usuwa
     void pop_front(); // usuwa poczatek O(1)
     void pop_back(); // usuwa koniec O(n)
-    void clear(); // czyszczenie listy z elementow O(n)
+    void clear()
+    {
+        while(!empty())
+            pop_back();
+    } // czyszczenie listy z elementow O(n)
     void display(); // O(n)
-    void reverse(); // O(n)
+    void reverse()
+    {
+        SingleNode <T> *temp = NULL;
+        SingleNode <T> *prev = NULL;
+        SingleNode <T> *curr = head;
+        while(curr != NULL)
+        {
+            temp = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = temp;
+            //std::cout<<"Works here"<<std::endl;
+        }
+        head = prev;
+    } // O(n)
     // Operacje z indeksami. NIEOBOWIAZKOWE
-    int erase(int pos); // return Iterator following the last removed element,
     T& operator[](int pos); // podstawienie L[pos]=item
     const T& operator[](int pos) const; // odczyt L[pos]
+    void erase(int pos);
     int index(const T& item); // jaki index na liscie (-1 gdy nie ma) O(n)
-    int insert(int pos, const T& item); // inserts item before pos,
+    void insert(int pos, const T& item); // inserts item before pos,
+    void insert(int pos, T&& item); // inserts item before pos,
     // Jezeli pos=0, to wstawiamy na poczatek.
     // Jezeli pos=size(), to wstawiamy na koniec.
-    // Zwraca pozycje wstawionego elementu.
 };
 
 template <typename T>
 SingleList<T>::~SingleList() {
-    // I sposob.                                                                                                                                                                                                                                           
+    // I sposob.
     for (SingleNode<T> *node; !empty(); ) {
         node = head->next; // zapamietujemy
         delete head;
@@ -73,6 +167,7 @@ void SingleList<T>::push_front(const T& item) {
     } else {
         head = tail = new SingleNode<T>(item);
     }
+    rozmiar++;
 }
 
 template <typename T>
@@ -83,6 +178,7 @@ void SingleList<T>::push_back(const T& item) {
     } else {
         head = tail = new SingleNode<T>(item);
     }
+    rozmiar++;
 }
 
 template <typename T>
@@ -104,6 +200,7 @@ void SingleList<T>::pop_front() {
     } else { // wiecej niz jeden wezel na liscie
         head = head->next;
     }
+    rozmiar--;
     delete node;
 }
 
@@ -122,6 +219,7 @@ void SingleList<T>::pop_back() {
         tail = before;
         tail->next = nullptr;
     }
+    rozmiar--;
     delete node;
 }
 
