@@ -1,19 +1,17 @@
-// arraylist.h
-
 #ifndef ARRAYLIST_H
 #define ARRAYLIST_H
 
-#include <iostream>     // deklaracje strumieni cout, cin, cerr
-#include <cassert>    // assert()
+#include <iostream>
+#include <cassert> 
 
 template <typename T>
 class ArrayList 
 {
     T* tab;
-    int msize; // najwieksza mozliwa liczba elementow
+    int msize; // max liczba elementów
     int last; // pierwsza wolna pozycja
 public:
-    ArrayList(int s=10) : msize(s), last(0) // default constructor
+    ArrayList(int s=10) : msize(s), last(0) // domyślny constructor
     {
         tab = new T[s];
         assert( tab != nullptr );
@@ -22,7 +20,7 @@ public:
     { 
         delete [] tab; 
     }
-    ArrayList(const ArrayList& other) // copy constructor
+    ArrayList(const ArrayList& other) // kopiowanie constructora
     {
         msize = other.msize;
         last = other.last;
@@ -60,126 +58,141 @@ public:
             }
             return *this;
         }
-    } // copy assignment operator, return *this
+    } 
+    // copy assignment operator, return *this
     // usage:   list2 = list1;
     /*ArrayList& operator=(ArrayList&& other); // move assignment operator, return *this
     // usage:   list2 = std::move(list1);*/
-    bool empty() const 
-    {
-        return last == 0; 
-    } // checks if the container has no elements
-    bool full() const 
-    { 
-        return last == msize; 
-    } // checks if the container is full
-    int size() const 
-    {
-        return last; 
-    } // liczba elementow na liscie
     int max_size() const 
     { 
-        return msize; 
-    } // najwieksza mozliwa liczba elementow
+        return msize; // zwraca maksymalna wielkosc
+    }
+
+    int size() const 
+    {
+        return last; // zwraca liczbe elementow w liscie
+    }
+
+    bool full() const 
+    { 
+        return last == msize; // sprawdzamy czy pelny
+    }
+
+    bool empty() const 
+    {
+        return last == 0;   // sprawdzamy czy pusty
+    }
+    
+
     void push_front(const T& item)
     {
         if(full())
-            std::cout<<"Lista jest pelna\n";
+            std::cout<<"Lista = pelna\n";
         else
         {
             for (int  i = last; i > 0; i--)
             {
-                tab[i] = std::move(tab[i-1]);
+                tab[i] = std::move(tab[i-1]);   // dodajemy z przodu
             }
             tab[0] = std::move(item);
             std::cout<<"     "<<tab;
             last++;
-        }
-    } // dodanie na poczatek
+        } 
+    }
+
     void push_front(T&& item)
     {
         if(full())
-            std::cout<<"Lista jest pelna";
+        std::cout<<"Lista = pelna";
         else
         {
             for (int  i = last; i > 0; i--)
             {
-                tab[i] = std::move(tab[i-1]);
+                tab[i] = std::move(tab[i-1]);   // dodajemy z przodu
             }
             tab[0] = std::move(item);
             last++;
         }
-    } // dodanie na poczatek
+    } 
+
     void push_back(const T& item)
     {
         if(full())
-            std::cout<<"Lista jest pelna\n";
+            std::cout<<"Lista = pelna\n";
         else
         {
-            tab[last] = std::move(item);
+            tab[last] = std::move(item);        // dodajemy na ostania pozycje
             last++;
         }
-    } // dodanie na koniec
+    } 
+    
     void push_back(T&& item)
     {
         if(full())
-            std::cout<<"Lista jest pelna\n";
+            std::cout<<"Lista = pelna\n";
         else
         {
-            tab[last] = std::move(item);
+            tab[last] = std::move(item);        // dodajemy na ostania pozycje
             last++;
         }
-    } // dodanie na koniec
+    }
+
     T& front()
     {
         if(last==0)
-            std::cout<<"Lista pusta \n";
+            std::cout<<"Lista = pusta \n";      // pobiera pierwszy element i zwraca, zwraca blad jesli lista jest pusta
         return tab[0];
-    } // zwraca poczatek, nie usuwa, error dla pustej listy
+    }
     T& back()
     {
         if(last==0)
-            std::cout<<"Lista pusta \n";
+            std::cout<<"Lista = pusta \n";      // pobiera ostatni element i zwraca, zwraca blad jesli lista jest pusta
         return tab[last-1];
-    } // zwraca koniec, nie usuwa, error dla pustej listy
+    }
     void pop_front()
     {
         if(empty())
-            std::cout<<"Lista pusta\n";
+            std::cout<<"Lista = pusta\n";
         else
         {
-            for(int i=0;i<size();i++)
-                tab[i] = tab[i+1];
+            for(int i=0;i<size();i++)  
+                tab[i] = tab[i+1];              // usuwa pierwszy element, zwraca blad jesli lista jest pusta
             last--;
         }
-    } // usuwa poczatek, error dla pustej listy
+    }
+
     void pop_back()
     {
         if(empty())
             std::cout<<"Lista pusta\n";
-        else
-            last--;
-    } // usuwa koniec, error dla pustej listy
+        else                                    // usuwa ostatni element, zwraca blad jesli lista jest pusta
+            last--; 
+    }
+
     void clear()
     {
         for(int i=0;i<last;i++)
-            tab[i] = NULL;
+            tab[i] = NULL;                      // czyscimy liste z wszystkich elementow
         last = 0;
-    } // czyszczenie listy z elementow
+    }
+
     void display()
     {
         for(int i=0;i<size();i++)
-            std::cout<<tab[i]<<" ";
+            std::cout<<tab[i]<<" ";             // wyswietla tablice
         std::cout<<std::endl;
-    } // lepiej zdefiniowac operator<<
+    }
+
     void reverse()
     {
         for(int i=0;i<size()/2;i++)
         {
             T temp = tab[i];
-            tab[i] = tab[last-i-1];
+            tab[i] = tab[last-i-1];             // odwraca kolejnosc elementow w liscie
             tab[last-i-1] = temp;
         }
-    } // odwracanie kolejnosci
+    }
+    
     void sort()
     {
         int index = 0;
@@ -188,14 +201,15 @@ public:
             index = 0;
             for(int j = 0;j<size()-i;j++)
             {
-                if(tab[j]>=tab[index])
+                if(tab[j]>=tab[index])          // sortuje liste
                     index = j;
             }
             T temp = tab[last-i-1];
             tab[last-i-1] = tab[index];
             tab[index] = temp;
         }
-    } // sortowanie listy
+    }
+
     void merge(ArrayList& other)
     {
         if(size()+other.size() - 2 > msize)
@@ -207,7 +221,7 @@ public:
             {
                 if(x == other.last)
                     break;
-                else
+                else                                      //  laczy dwie posortowane listy w jedna
                 {
                     if(other.tab[x]<tab[i])
                     {
@@ -218,8 +232,9 @@ public:
             }
         }
 
-    } //  merges two sorted lists into one
-    // Operacje z indeksami.
+    }
+
+    // Operacje na indeksach
     int erase(int pos)
     {
         if(size()==0)
@@ -235,49 +250,56 @@ public:
      // return Iterator following the last removed element,
     // czyli u mnie pos, bo ten element za usunietym sie przesunie na pos;
     // ale jak usune ostatni, to chyba powinien zwrocic -1 (niewlasciwy indeks)
-    //
+    
     // https://en.cppreference.com/w/cpp/language/operators
     // Array subscript operator
+
     T& operator[](int pos)
     {
         if(pos>=last)
-            std::cout<<"Indeks poza granicami tablicy\n";
+            std::cout<<"Indeks poza granicami tablicy\n";       // podstawienie w L[pos]=item
         return tab[pos];
-    } // podstawienie L[pos]=item
+    }
+
     const T& operator[](int pos) const
     {
         if(pos>=last)
-            std::cout<<"Indeks poza granicami tablicy\n";
+            std::cout<<"Indeks poza granicami tablicy\n";        // odczyt co jest naL[pos]
         return tab[pos];
     } // odczyt L[pos]
+
     int index(const T& item)
     {
         for(int i = 0;i<size();i++)
         {
             if(tab[i]==item)
             {
-                return i;
+                return i;                                       // sprawdzenie indexu, zwracamy -1 gdy index jest poza zakresem
             }
         }
         return -1;
-    } // jaki index na liscie (-1 gdy nie ma)
-    int insert(int pos, const T& item)
+    }
+
+    int insert(int pos, const T& item)                          // wstawianie przed punktem pos
     {
         if(size() == msize)
         {
             std::cout<<"Lista pelna\n";
             return -1;
         }
+
         else if(pos == 0)
         {
             push_front(item);
             return 0;
         }
+
         else if(pos == size())
         {
             push_back(item);
             return last-1;
         }
+
         else
         {
             for(int i=size();i>pos;i--)
@@ -288,7 +310,8 @@ public:
             last++;
             return pos-1;
         }
-    } // inserts item before pos,
+    }
+
     int insert(int pos, T&& item)
     {
         if(size() == msize)
@@ -296,12 +319,12 @@ public:
             std::cout<<"Lista pelna\n";
             return -1;
         }
-        else if(pos == 0)
-        {
-            push_front(item);
-            return 0;
+        else if(pos == 0)                       // Jezeli pos=0, to wstawiamy na poczatek.  
+        {                                       
+            push_front(item);                   
+            return 0;                           
         }
-        else if(pos == size())
+        else if(pos == size())                  // Jezeli pos=size(), to wstawiamy na koniec.
         {
             push_back(item);
             return last-1;
@@ -314,16 +337,16 @@ public:
             }
             tab[pos] = std::move(item);
             last++;
-            return pos;
+            return pos;                         // zwraca pozycje wstawionego elementu
         }
-    } // inserts item before pos,
-    // Jezeli pos=0, to wstawiamy na poczatek.
-    // Jezeli pos=size(), to wstawiamy na koniec.
-    // zwraca pozycje wstawionego elementu
-    // zwraca pozycje wstawionego elementu
+    }
+
+
+    
+
     friend std::ostream& operator<<(std::ostream& os, const ArrayList& L) {
-        for (int i=0; i < L.last; ++i) { // odwolanie L.last
-            os << L.tab[i] << " ";   // odwolanie L.tab
+        for (int i=0; i < L.last; ++i) {        // odwolanie L.last
+            os << L.tab[i] << " ";              // odwolanie L.tab
         }
         return os;
     }

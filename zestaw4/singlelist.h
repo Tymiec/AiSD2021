@@ -12,20 +12,21 @@ struct SingleNode
 // the default access mode and default inheritance mode are public
     T value;
     SingleNode *next;
-    SingleNode() : value(T()), next(nullptr) {} // konstruktor domyslny
+    SingleNode() : value(T()), next(nullptr) {} // domyślny constructor
     SingleNode(const T& item, SingleNode *ptr=nullptr) : value(item), next(ptr) {}
     ~SingleNode() {} // destruktor
 };
+
 
 template <typename T>
 class SingleList 
 {
     SingleNode<T> *head, *tail;
-    int rozmiar;
+    int rozmiar_tablicy;
 public:
     SingleList() : head(nullptr), tail(nullptr) 
     {
-        rozmiar = 0;
+        rozmiar_tablicy = 0;
     }
     ~SingleList(); // tu trzeba wyczyscic wezly
     SingleList(const SingleList& other)
@@ -38,6 +39,7 @@ public:
             node = node -> next;
         }
     } // copy constructor
+
     // usage:   SingleList<int> list2(list1);
     SingleList(SingleList&& other); // move constructor NIEOBOWIAZKOWE
     // usage:   SingleList<int> list2(std::move(list1));
@@ -63,26 +65,23 @@ public:
                     p2 = p2 -> next;
                 }   
                 p1 -> next = nullptr;
-                rozmiar = other.rozmiar;
+                rozmiar_tablicy = other.rozmiar_tablicy;
             }
         }
         return *this;
     } // copy assignment operator, return *this
     // usage:   list2 = list1;
-    SingleList& operator=(SingleList&& other); // move assignment operator, return *this
+    SingleList& operator=(SingleList&& other);  // move assignment operator, return *this
     // usage:   list2 = std::move(list1); NIEOBOWIAZKOWE
-    bool empty() const 
-    {
-        return head == nullptr; 
-    }
-    int size() const
-    {
-        return rozmiar;
-    } // O(n) bo trzeba policzyc
+    bool empty() const { return head == nullptr; }
+
+    int size() const { return rozmiar_tablicy; } // O(n) bo trzeba policzyc
+
     void push_front(const T& item); // O(1), L.push_front(item)
+
     void push_front(T&& item)
     {
-        if (!empty())   
+       if (!empty())   
         {
             head = new SingleNode<T>(std::move(item), head);
         } 
@@ -90,52 +89,46 @@ public:
         {
             head = tail = new SingleNode<T>(std::move(item));
         }
-        rozmiar++;
+        rozmiar_tablicy++; 
     } // O(1), L.push_front(std::move(item)) NIEOBOWIAZKOWE
     void push_back(const T& item); // O(1), L.push_back(item)
     void push_back(T&& item)
     {
         if (!empty()) 
         {
-            tail->next = new SingleNode<T>(std::move(item));
+            tail -> next = new SingleNode<T>(std::move(item));
             tail = tail->next;
         } 
         else 
         {
             head = tail = new SingleNode<T>(std::move(item));
         }
-        rozmiar++;
+        rozmiar_tablicy++;        
     } // O(1), L.push_back(std::move(item)) NIEOBOWIAZKOWE
-    T& front() const 
-    { 
-        return head->value; 
-    } // zwraca poczatek, nie usuwa
-    T& back() const 
-    {
-        return tail->value; 
-    } // zwraca koniec, nie usuwa
+    T& front() const { return head->value; } // zwraca poczatek, nie usuwa
+    T& back() const { return tail->value; } // zwraca koniec, nie usuwa
     void pop_front(); // usuwa poczatek O(1)
     void pop_back(); // usuwa koniec O(n)
     void clear()
     {
         while(!empty())
-            pop_back();
+        pop_back();
     } // czyszczenie listy z elementow O(n)
     void display(); // O(n)
     void reverse()
     {
-        SingleNode <T> *temp = NULL;
-        SingleNode <T> *prev = NULL;
-        SingleNode <T> *curr = head;
-        while(curr != NULL)
+        SingleNode <T> *temporary = NULL;
+        SingleNode <T> *previous = NULL;
+        SingleNode <T> *current = head;
+        while(current != NULL)
         {
-            temp = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = temp;
+            temporary = current -> next;
+            current -> next = previous;
+            previous = current;
+            current = temporary;
             //std::cout<<"Works here"<<std::endl;
         }
-        head = prev;
+        head = previous;
     } // O(n)
     // Operacje z indeksami. NIEOBOWIAZKOWE
     T& operator[](int pos); // podstawienie L[pos]=item
@@ -167,24 +160,26 @@ void SingleList<T>::push_front(const T& item) {
     } else {
         head = tail = new SingleNode<T>(item);
     }
-    rozmiar++;
+    rozmiar_tablicy++;
 }
 
 template <typename T>
 void SingleList<T>::push_back(const T& item) {
     if (!empty()) {
-        tail->next = new SingleNode<T>(item);
+        tail -> next = new SingleNode<T>(item);
         tail = tail->next;
     } else {
         head = tail = new SingleNode<T>(item);
     }
-    rozmiar++;
+    rozmiar_tablicy++;
 }
 
 template <typename T>
-void SingleList<T>::display() {
+void SingleList<T>::display() 
+{
     SingleNode<T> *node = head;
-    while (node != nullptr){
+    while (node != nullptr)
+    {
         std::cout << node->value << " ";
         node = node->next;
     }
@@ -195,31 +190,37 @@ template <typename T>
 void SingleList<T>::pop_front() {
     assert(!empty());
     SingleNode<T> *node = head; // zapamietujemy
-    if (head == tail) { // jeden wezel na liscie
-        head = tail = nullptr;
-    } else { // wiecej niz jeden wezel na liscie
-        head = head->next;
+    if (head == tail) 
+    {         
+        head = tail = nullptr;  // jeden wezel na liscie
+    } else 
+    { 
+        head = head->next;      // wiecej niz jeden wezel na liscie
     }
-    rozmiar--;
+    rozmiar_tablicy--;
     delete node;
 }
 
 template <typename T>
-void SingleList<T>::pop_back() {
+void SingleList<T>::pop_back() 
+{
     assert(!empty());
     SingleNode<T> *node = tail; // zapamietujemy
-    if (head == tail) { // jeden wezel na liscie
+    if (head == tail)           // jeden wezel na liscie
+    {
         head = tail = nullptr;
-    } else { // wiecej niz jeden wezel na liscie
-        // Szukamy poprzednika ogona.
-        SingleNode<T> *before=head;
-        while (before->next != tail) {
+    } 
+    else // wiecej niz jeden wezel na liscie
+    {                                    
+       
+        SingleNode<T> *before = head;     // Szukamy poprzednika ogona.
+        while (before -> next != tail) {
             before = before->next;
         }
         tail = before;
         tail->next = nullptr;
     }
-    rozmiar--;
+    rozmiar_tablicy--;
     delete node;
 }
 

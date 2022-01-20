@@ -33,3 +33,9 @@
 
 #Compressed
 *.zip
+
+smieci/
+.vscode/
+gotowe_zipy/
+workspace/
+projektworkspace/
