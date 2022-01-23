@@ -33,7 +33,7 @@ void test2()
     y = x;
     x.clear();
 
-    cout<<"Wynik: "<<endl;//
+    cout<<"Wynik: "<<endl;
     x.display();
     y.display();
     cout<<"Oczekiwany:"<<endl<<"6 10"<<endl<<endl;
