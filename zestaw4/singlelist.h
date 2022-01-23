@@ -33,6 +33,7 @@ public:
     {
         head = tail = nullptr;
         SingleNode<T> *node = other.head;
+        
         while(node)
         {
             push_back(node->value);
@@ -50,6 +51,7 @@ public:
             clear();
             if(other.head==nullptr)
                 head = nullptr;
+
             else
             {
                 SingleNode<T> *p1,*p2;
@@ -61,6 +63,7 @@ public:
                 {
                     p1 -> next = new SingleNode<T>;
                     p1 = p1 -> next;
+
                     p1 -> value = p2 -> value;
                     p2 = p2 -> next;
                 }   
@@ -84,7 +87,8 @@ public:
        if (!empty())   
         {
             head = new SingleNode<T>(std::move(item), head);
-        } 
+        }
+
         else 
         {
             head = tail = new SingleNode<T>(std::move(item));
@@ -97,16 +101,17 @@ public:
         if (!empty()) 
         {
             tail -> next = new SingleNode<T>(std::move(item));
-            tail = tail->next;
-        } 
+            tail = tail -> next;
+        }
+
         else 
         {
             head = tail = new SingleNode<T>(std::move(item));
         }
         rozmiar_tablicy++;        
     } // O(1), L.push_back(std::move(item)) NIEOBOWIAZKOWE
-    T& front() const { return head->value; } // zwraca poczatek, nie usuwa
-    T& back() const { return tail->value; } // zwraca koniec, nie usuwa
+    T& front() const { return head -> value; } // zwraca poczatek, nie usuwa
+    T& back() const { return tail -> value; } // zwraca koniec, nie usuwa
     void pop_front(); // usuwa poczatek O(1)
     void pop_back(); // usuwa koniec O(n)
     void clear()
@@ -142,10 +147,12 @@ public:
 };
 
 template <typename T>
-SingleList<T>::~SingleList() {
+SingleList<T>::~SingleList() 
+{
     // I sposob.
-    for (SingleNode<T> *node; !empty(); ) {
-        node = head->next; // zapamietujemy
+    for (SingleNode<T> *node; !empty();) 
+    {
+        node = head -> next; // zapamietujemy
         delete head;
         head = node; // kopiowanie wskaznika
     }
@@ -154,21 +161,31 @@ SingleList<T>::~SingleList() {
 }
 
 template <typename T>
-void SingleList<T>::push_front(const T& item) {
-    if (!empty()) {
+void SingleList<T>::push_front(const T& item) 
+{
+    if (!empty()) 
+    {
         head = new SingleNode<T>(item, head);
-    } else {
+    } 
+
+    else 
+    {
         head = tail = new SingleNode<T>(item);
     }
     rozmiar_tablicy++;
 }
 
 template <typename T>
-void SingleList<T>::push_back(const T& item) {
-    if (!empty()) {
+void SingleList<T>::push_back(const T& item) 
+{
+    if (!empty()) 
+    {
         tail -> next = new SingleNode<T>(item);
-        tail = tail->next;
-    } else {
+        tail = tail -> next;
+    } 
+
+    else 
+    {
         head = tail = new SingleNode<T>(item);
     }
     rozmiar_tablicy++;
@@ -180,20 +197,23 @@ void SingleList<T>::display()
     SingleNode<T> *node = head;
     while (node != nullptr)
     {
-        std::cout << node->value << " ";
-        node = node->next;
+        std::cout << node -> value << " ";
+        node = node -> next;
     }
     std::cout << std::endl;
 }
 
 template <typename T>
-void SingleList<T>::pop_front() {
+void SingleList<T>::pop_front() 
+{
     assert(!empty());
     SingleNode<T> *node = head; // zapamietujemy
     if (head == tail) 
     {         
         head = tail = nullptr;  // jeden wezel na liscie
-    } else 
+    } 
+
+    else 
     { 
         head = head->next;      // wiecej niz jeden wezel na liscie
     }
@@ -214,11 +234,12 @@ void SingleList<T>::pop_back()
     {                                    
        
         SingleNode<T> *before = head;     // Szukamy poprzednika ogona.
-        while (before -> next != tail) {
+        while (before -> next != tail) 
+        {
             before = before->next;
         }
         tail = before;
-        tail->next = nullptr;
+        tail -> next = nullptr;
     }
     rozmiar_tablicy--;
     delete node;

@@ -65,6 +65,7 @@ public:
                 p1 = head;
                 p1 -> previous = nullptr;
                 p2 = other.head -> next;
+
                 while(p2)
                 {
                     p1 -> next = new DoubleNode<T>;

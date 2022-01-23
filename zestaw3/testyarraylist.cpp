@@ -2,6 +2,7 @@
 #include "arraylist.h"
 
 using namespace std;
+
 void test_1()
 {
     ArrayList <int> a(5);
@@ -79,9 +80,6 @@ void test_5()
     cout<<"Oczekiwany:"<<endl<<"11 12 13 2000"<<endl;
     cout<<endl;
 }
-
-
-// opisac ktoe testy sluza do czego
 int main()
 {
     ArrayList <int> a(5);
@@ -92,5 +90,3 @@ int main()
     test_5();
     return 0;
 }
-
-// poprzestawiać kolejność testów, zmienić zawartość

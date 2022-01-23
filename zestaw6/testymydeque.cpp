@@ -1,14 +1,14 @@
 #include <iostream>
-#include "singlelist.h"
+#include "mydeque.h"
 
 using namespace std;
 
 void test1()
 {
-    SingleList <int> a;
+    MyDeque <int> a;
     a.push_front(2);
     a.push_front(1);
-    SingleList <int> b(a);
+    MyDeque <int> b(a);
     b.push_back(3);
     cout<<"Wynik: "<<endl;
     a.display();
@@ -18,7 +18,7 @@ void test1()
 
 void test2()
 {
-    SingleList <int> a;
+    MyDeque <int> a;
     a.push_front(2);
     a.push_front(4);
     a.push_front(4);
@@ -33,8 +33,8 @@ void test2()
 
 void test3()
 {
-    SingleList <int> a;
-    SingleList <int> b;
+    MyDeque <int> a;
+    MyDeque <int> b;
     a.push_back(3);
     a.push_back(5);
     a.push_front(9);
@@ -51,32 +51,50 @@ void test3()
 
 void test4()
 {
-    SingleList <char> a;
+    MyDeque <char> a;
     a.push_front('error1');
     a.push_front('error2');
     a.push_back('error3');
     a.push_back('error4');
     a.clear();
     a.push_back('error5');
+    a.push_front('k');
+    a.push_front('e');
+    a.push_front('m');
+    a.push_front('y');
     a.push_front('T');
     a.push_back('B');
     cout<<"Wynik: "<<endl;
-    cout<<a.front()<<" "<<a.back()<<endl;
-    cout<<"Oczekiwany:"<<endl<<"T B"<<endl<<endl;
+    // cout<<a.front()<<" "<<a.back()<<endl;
+    cout<<a.front();
+    a.pop_front();
+    cout<<a.front();
+    a.pop_front();
+    cout<<a.front();
+    a.pop_front();
+    cout<<a.front();
+    a.pop_front();
+    cout<<a.front();
+    a.pop_front();
+    cout<<" "<<a.back();
+    cout<<endl;
+    cout<<"Oczekiwany:"<<endl<<"Tymek B"<<endl<<endl;
 }
+
 void test5()
 {
-    SingleList <int> a;
+    MyDeque <int> a;
     a.push_back(4);
     a.push_front(2);
     a.push_front(1);
     a.push_back(5);
-    a.reverse();
     a.push_front(3);
     cout<<"Wynik: "<<endl;
     a.display();
-    cout<<"Oczekiwany:"<<endl<<"3 5 4 2 1"<<endl<<endl;
+    cout<<"Oczekiwany:"<<endl<<"3 1 2 4 5"<<endl<<endl;
 }
+
+
 
 
 int main()
@@ -87,5 +105,6 @@ int main()
     test3();
     test4();
     test5();
+  
     return 0;
 }

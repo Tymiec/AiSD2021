@@ -1,9 +1,9 @@
 CC = g++
 CFLAGS = -Wall -std=c++11
 
-OBJECTS1 = testyarraylist.o
+OBJECTS1 = 1.o
 
-TARGET1 = testyarraylist.out
+TARGET1 = 1.out
 
 .PHONY: all
 all:$(TARGET1) $(TARGET2)
