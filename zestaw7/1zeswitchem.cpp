@@ -46,7 +46,7 @@ double rpn (std::vector<string> input)
     double z;
 
     for (int i = 0 ; i < 50 ; i++)
-        array[i] = 0;
+        array[i] = 0;0
 
     int iterator = 0;
 

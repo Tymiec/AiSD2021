@@ -1,9 +1,9 @@
 CC = g++
 CFLAGS = -Wall -std=c++11
 
-OBJECTS1 = testyprioqueue.o
+OBJECTS1 = testyproqueue.o
 
-TARGET1 = testyprioqueue.out
+TARGET1 = testyproqueue.out
 
 .PHONY: all
 all:$(TARGET1) $(TARGET2)
