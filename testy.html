@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Zajecia 5</title>
+    
+</head>
+
+<script>
+    document.addEventListener('DOMContentLoaded',
+    () =>
+    {
+        let request = new XMLHttpRequest();
+        request.open("GET" , "http://sphinx.if.uj.edu.pl/techwww/data", true);
+
+        request.addEventListener('load',
+        () =>
+        {
+            if (request.status==200)
+            {
+                // console.log(request.response);
+                const data = JSON.parse(request.response);
+                const survey_data = data["StackOverflow Survey 2021"];
+                const frameworks = survey_data["Web frameworks"];
+
+                for (let item of frameworks)
+                {
+                    console.log(item + " : " + frameworks[item]);
+
+                    let list_item= document.createElement('li');    
+                    list_item.innertext = item + " : " + frameworks[item] + '%';
+                    frameworks.list.appendChild(list_item);
+                    
+                }
+
+            }
+        }
+        )
+
+        request.send(null);
+
+        request.status == 200;
+    }
+
+    );
+
+</script>
+<body  style="background-color: rgba(78, 94, 102, 1); color: rgb(160, 160, 160);">
+
+<h1>Web frameworkssssssss</h1>
+<ul id="frameworks-list"></ul>
+
+
+<h1>Editorsssss</h1>
+<ul id="editors-list"></ul>
+</body>
+</html>
