@@ -1,9 +1,9 @@
 CC = g++
 CFLAGS = -Wall -std=c++11
 
-OBJECTS1 = 1.o
+OBJECTS1 = onp.o
 
-TARGET1 = 1.out
+TARGET1 = onp.out
 
 .PHONY: all
 all:$(TARGET1) $(TARGET2)

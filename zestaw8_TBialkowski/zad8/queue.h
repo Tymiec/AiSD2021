@@ -20,11 +20,11 @@ template <typename T>
 class Queue
 {
     SingleNode<T> *head, *tail;
-    int rozmiar;
+    int size2;
 public:
     Queue() : head(nullptr), tail(nullptr) 
     {
-        rozmiar = 0;
+        size2 = 0;
     }
     ~Queue()
     {
@@ -37,7 +37,7 @@ public:
         SingleNode<T> *node = other.head;
         while(node)
         {
-            push(node->value);
+            push(node -> value);
             node = node -> next;
         }
     }
@@ -63,7 +63,7 @@ public:
                     p2 = p2 -> next;
                 }   
                 p1 -> next = nullptr;
-                rozmiar = other.rozmiar;
+                size2 = other.size2;
             }
         }
         return *this;
@@ -74,41 +74,41 @@ public:
     }
     int size() const
     {
-        return rozmiar;
+        return size2;
     }
     void push(const T& item)
     {
         if (!empty()) 
         {
-            tail->next = new SingleNode<T>(item);
-            tail = tail->next;
+            tail -> next = new SingleNode<T>(item);
+            tail = tail -> next;
         } 
         else 
         {
             head = tail = new SingleNode<T>(item);
         }
-        rozmiar++;
+        size2++;
     }
     void push(T&& item)
     {
         if (!empty()) 
         {
-            tail->next = new SingleNode<T>(std::move(item));
-            tail = tail->next;
+            tail -> next = new SingleNode<T>(std::move(item));
+            tail = tail -> next;
         } 
         else 
         {
             head = tail = new SingleNode<T>(std::move(item));
         }
-        rozmiar++;
+        size2++;
     } // O(1), L.push_back(std::move(item)) NIEOBOWIAZKOWE
     T& front() const 
     { 
-        return head->value; 
+        return head -> value; 
     }
     T& back() const 
     {
-        return tail->value; 
+        return tail -> value; 
     }
     T pop()
     {
@@ -120,9 +120,9 @@ public:
         } 
         else 
         { // wiecej niz jeden wezel na liscie
-            head = head->next;
+            head = head -> next;
         }
-        rozmiar--;
+        size2--;
         T val;
         val = node -> value;
         delete node;
@@ -137,8 +137,8 @@ public:
     {
         SingleNode<T> *node = head;
         while (node != nullptr){
-            std::cout << node->value << " ";
-            node = node->next;
+            std::cout << node -> value << " ";
+            node = node -> next;
         }
         std::cout << std::endl;
     }
@@ -149,8 +149,8 @@ public:
         SingleNode <T> *curr = head;
         while(curr != NULL)
         {
-            temp = curr->next;
-            curr->next = prev;
+            temp = curr -> next;
+            curr -> next = prev;
             prev = curr;
             curr = temp;
         }
