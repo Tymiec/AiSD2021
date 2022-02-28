@@ -11,7 +11,7 @@ Baza danych książek z:
 ## Zestawy zadań
 Zestawy zadań od 2-10 
 
-[Przejdź do zestawów](Zestawy%zadan)
+[Przejdź do zestawów](Zestawy%20zadan)
 
 
 ##### Zaktualizowano 28.02.2022
