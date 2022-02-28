@@ -13,5 +13,4 @@ Zestawy zadań od 2-10
 
 [Przejdź do zestawów](Zestawy%20zadan)
 
-
-##### Zaktualizowano 28.02.2022
+##### Zaktualizowano 01.03.2022
