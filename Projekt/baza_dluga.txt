@@ -1,0 +1,10 @@
+1;W pustyni i w puszczy;1911;Henryk Sienkiewicz
+2;Wszyscy ludzie przez caly czas;2015;Marta Guzowska
+3;Zlodziejka mojej corki;2012;Rexanne Becnel
+4;Jezyk C++. Szkola programowania;2013;Stephen Prata
+5;Niezgodna;2014;Veronica Roth
+7;Strasznie glosno, niesamowicie blisko;2012;Jonathan Safran Foer
+65;Schron przeciwczasowy;2022;Georgi Gospodniow
+25;Cos sie konczy cos sie zaczyna;2000;Andrzej Sapkowski
+9;Legenda o popiolach i wrzasku;2022;Anna Bartlomiejczyk, Marta Gajewska
+10000;Bardzo_dlugi_tekst_bardzo_dlugi_tekst_bardzo_dlugi_tekst_bardzo_dlugi_tekst;2022;Bardzo_dlugi_tekst_bardzo_dlugi_tekst_bardzo_dlugi_tekst_bardzo_dlugi_tekst
